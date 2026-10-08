@@ -1,0 +1,66 @@
+# ---------------------------------------------------------------------------
+#  waste_demarcation_feasibility_study
+# ---------------------------------------------------------------------------
+
+# --- Python bytecode ---
+__pycache__/
+scripts/__pycache__/
+src/__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+*$py.class
+
+# --- virtual environments ---
+.venv/
+venv/
+env/
+ENV/
+.conda/
+envs/
+
+# --- packaging / build ---
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+pip-wheel-metadata/
+
+# --- tooling caches ---
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+
+# --- OS cruft ---
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# --- editors ---
+.vscode/
+.idea/
+*.swp
+*~
+
+# --- project-specific ---------------------------------------------------------
+# Derived image outputs: regenerate with scripts/preprocess.py rather than
+# committing them. data/raw IS tracked - it is the irreplaceable source data.
+data/processed/
+data/enhanced/
+
+# pyiqa / timm / huggingface downloaded model weights
+*.pth
+*.pt
+*.onnx
+.cache/
+
+# keep the metadata CSV and the directory structure
+!data/metadata/
+!data/metadata/capture_metadata.csv
+!.gitignore

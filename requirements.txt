@@ -1,0 +1,77 @@
+# ===========================================================================
+#  waste_demarcation_feasibility_study - Python dependencies
+# ===========================================================================
+#
+#  WHAT EACH PACKAGE IS FOR
+#  ------------------------
+#  numpy          Array/matrix backbone. Every image in this pipeline is a
+#                 numpy array; preprocess.py uses it for the EXIF orientation
+#                 transforms (rot90 / flips).
+#  opencv-python  Image I/O, colour conversion and resizing (INTER_AREA
+#                 downscaling in scripts/preprocess.py). Also the classical
+#                 enhancement methods (CLAHE, bilateral, unsharp mask).
+#  matplotlib     Plots and figures for the results/ folder - metric
+#                 comparisons, before/after grids.
+#  pandas         Reading and aggregating data/metadata/capture_metadata.csv
+#                 and the per-image metric tables.
+#  torch          PyTorch. Required by the deep enhancement methods and by
+#                 pyiqa, which implements its metrics as torch modules.
+#  torchvision    Image transforms and pretrained backbones that torch-based
+#                 enhancement models and pyiqa expect.
+#  pyiqa          IQA-PyTorch. Supplies the no-reference quality metrics this
+#                 study is built on: NIQE, BRISQUE, MUSIQ, CLIP-IQA, etc.
+#
+#  PYTHON VERSION: 3.12 (or 3.11). Verified that every pin below has a
+#  cp312 win_amd64 wheel. See environment.yml - the conda route is preferred.
+#
+#  NOTE ON TRANSITIVE DEPS: pyiqa pulls a long tail (timm, transformers,
+#  scipy, scikit-image, accelerate, datasets, bitsandbytes, facexlib,
+#  openai-clip, tensorboard, sentencepiece, einops, ...). These are
+#  deliberately NOT pinned here - pip resolves them. Over-pinning them
+#  causes conflicts that are far more painful than letting the resolver work.
+#  Expect this install to be large (~3-5 GB) and to take a while.
+#
+#  NOTE ON cv2: pyiqa depends on opencv-python-headless while we ask for
+#  opencv-python. Both provide the `cv2` module, so whichever pip installs
+#  last wins. That is harmless for this project because nothing here calls
+#  cv2.imshow / cv2.waitKey - display goes through matplotlib. If you ever
+#  do need a GUI window, run:  pip install --force-reinstall opencv-python
+#
+# ===========================================================================
+
+# ---------------------------------------------------------------------------
+#  PyTorch build selection
+# ---------------------------------------------------------------------------
+#  DEFAULT = CPU-only build (from regular PyPI). This is correct for this
+#  machine: the GPU evidence points to AMD, and PyTorch has NO ROCm support
+#  on Windows - ROCm is Linux-only. So an AMD card gives you nothing here and
+#  torch.cuda.is_available() will correctly report False.
+#
+#  IF YOU ACTUALLY HAVE AN NVIDIA GPU: uncomment exactly one index-url line
+#  below, then reinstall torch/torchvision. Check your driver's supported
+#  CUDA version first with `nvidia-smi`.
+#
+# --index-url https://download.pytorch.org/whl/cu121
+# --index-url https://download.pytorch.org/whl/cu124
+# --index-url https://download.pytorch.org/whl/cu126
+# ---------------------------------------------------------------------------
+
+# --- core numerical / imaging stack ---
+numpy==2.2.6
+opencv-python==4.14.0.94
+matplotlib==3.10.9
+pandas==2.3.3
+
+# --- deep learning (CPU build by default; see index-url note above) ---
+torch==2.14.1
+torchvision==0.29.1
+
+# --- image quality assessment: NIQE, BRISQUE, MUSIQ, CLIP-IQA ---
+# Lets pip resolve timm / transformers / scipy / scikit-image / etc.
+pyiqa==0.1.16
+
+# --- EXIF handling used by scripts/preprocess.py ---
+# (Pillow arrives as a torchvision/matplotlib dependency anyway, but pin the
+#  floor so the ImageOps.exif_transpose reference behaviour is guaranteed.)
+Pillow>=10.0.0
+piexif>=1.1.3

@@ -1,0 +1,88 @@
+# ===========================================================================
+#  Conda environment for waste_demarcation_feasibility_study
+#  Env name: wdfs
+# ===========================================================================
+#
+#  Create it with:
+#      conda env create -f environment.yml
+#      conda activate wdfs
+#
+#  Or run scripts\setup_env.ps1, which does this plus verification.
+#
+#  WHY PYTHON 3.12 AND NOT THE SYSTEM PYTHON
+#  -----------------------------------------
+#  The system Python on this machine is 3.14. Wheels for 3.14 DO now exist
+#  for this whole stack (including torch), so a 3.14 install would probably
+#  work - but it forces the newest major version of everything (numpy 2.5,
+#  pandas 3.0, opencv 5.0), which is exactly where fresh breaking changes
+#  live. pyiqa's pretrained-model code is developed against the 3.10-3.12
+#  range. Pinning 3.12 in an isolated env also means this project cannot be
+#  broken by, or break, anything else using the system Python.
+#
+#  WHY conda-forge ONLY, WITH NO `defaults` CHANNEL
+#  ------------------------------------------------
+#  conda 26.x ships a Terms-of-Service plugin that refuses to install from
+#  channels whose ToS has not been accepted. Anaconda's `defaults` /
+#  repo.anaconda.com channels are the ones that trigger this, and in a
+#  non-interactive script the prompt cannot be answered, so the install
+#  fails with CondaToSNonInteractiveError. conda-forge does not require ToS
+#  acceptance, so listing it alone sidesteps the whole problem.
+#
+#  If you ever do hit a ToS error, accept it once, interactively:
+#      conda tos accept --channel https://repo.anaconda.com/pkgs/main
+#  or see what is pending with:
+#      conda tos list
+#
+#  WHY THE CONDA PINS ARE LOOSE
+#  ----------------------------
+#  Exact conda pins (numpy=2.2.6 etc.) caused `conda env create` to fail with
+#  ResolvePackageNotFound when conda-forge had no matching build, which left
+#  a half-created env behind. The exact versions are pinned in
+#  requirements.txt and applied by pip afterwards; conda only needs to supply
+#  a compatible interpreter and build tooling.
+#
+#  GPU: CPU-only deliberately - PyTorch has no ROCm build on Windows, and
+#  this machine's GPU is AMD. See requirements.txt for the CUDA switch.
+#
+# ===========================================================================
+
+name: wdfs
+
+channels:
+  # conda-forge ONLY - see the ToS note above. Do not add `defaults`.
+  #
+  # `nodefaults` is REQUIRED, not decorative: without it conda appends the
+  # channels from the user's ~/.condarc, which is why a run still reported
+  # "Channels: conda-forge, defaults" despite this file listing only
+  # conda-forge. `nodefaults` suppresses that inheritance so the channel
+  # list is deterministic regardless of local config.
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  # --- interpreter (the one thing that genuinely must come from conda) ---
+  - python=3.12
+
+  # --- pip itself, plus build tooling for the one sdist-only dependency
+  #     (openai-clip, pulled in by pyiqa) ---
+  - pip>=24.0
+  - setuptools
+  - wheel
+
+  # --- NOTE: there is deliberately NO `pip:` section here. ---
+  #
+  #  The torch + pyiqa install is 3-5 GB. If it ran inside
+  #  `conda env create`, any network hiccup would fail the whole create and
+  #  leave a half-made env behind (no conda-meta), which is precisely the
+  #  "Not a conda environment" failure this project already hit once.
+  #
+  #  So conda's only job is to produce a clean Python 3.12 + pip quickly and
+  #  reliably. scripts\setup_env.ps1 then runs
+  #      <env>\python.exe -m pip install -r requirements.txt
+  #  as a separate, RESUMABLE step: if it fails you still have a valid env,
+  #  and re-running the script picks up where pip left off using its cache.
+  #
+  #  If you are setting up by hand instead of via the script, run:
+  #      conda env create -f environment.yml
+  #      conda activate wdfs
+  #      python -m pip install -r requirements.txt

@@ -1,8 +1,14 @@
 # Degradation Tagging Rules — Phase 2
 
-**Status: DRAFT — edit, then freeze.**
+**Status: FROZEN — amended twice post-hoc (wording only). See Amendments.**
 
-Rules frozen on: `08/10/2026` *(write the date here before you tag the first image)*
+Rules frozen on: `08/10/2026` — the wording in force for the whole tagging run.
+**Do not change this date.** It is the provenance of the 77 tags.
+
+Last amended on: `09/10/2026` — Amendments 1 (`hard_shadow`) and 2
+(`haze_dust`), both wording only. **Zero tag values were changed by either.**
+A third candidate amendment (`glare` size threshold) was deliberately declined;
+see Decision Note A.
 
 Tagged by: `Vaibhav Meena`
 
@@ -43,29 +49,51 @@ rather than agonising over the image.
 
 ### 1. `haze_dust`
 
-> **Tag `yes` if** the distant part of the scene is visibly washed out toward
-> grey or grey-brown, so that distant edges have lower contrast than nearby
-> edges in the same image.
+> **Tag `yes` if** the frame shows a distinguishable far field **and** that
+> distant part of the scene is visibly washed out toward grey or grey-brown,
+> so that distant edges have lower contrast than nearby edges in the same
+> image. If there is no distinguishable far field — a close-up of a single
+> bin, a frame filled by one surface — the test does not apply: tag `no`.
+
+**Amended 2026-10-09** — wording only, no tags changed. See Amendment 2 below
+for the original frozen sentence and the evidence. The visible-depth
+precondition was already stated in this rule's commentary during the tagging
+run; the amendment moves it into the rule sentence where it belongs.
 
 The test is the **near-versus-far contrast difference within the one image**,
-not overall brightness. An evenly bright image is not hazy. An image with no
-visible distance (a close-up of a single bin) cannot show haze — tag `no`.
-
-*Draft note:* consider whether you want to require visible depth in the frame
-as a precondition. Suggested: if there is no distinguishable far field, `no`.
+not overall brightness. An evenly bright image is not hazy.
 
 ### 2. `hard_shadow`
 
-> **Tag `yes` if** there is a distinctly darker region with a recognisably
-> sharp edge, and that dark region covers **roughly a tenth or more** of the
-> frame.
+> **Tag `yes` if** the frame contains one or more visually obvious shadow
+> regions with a recognisably sharp edge, and their **combined** area is
+> roughly a tenth or more of the frame.
 
-Two conditions, both required: **sharp boundary** and **≥10% of frame**. Soft
-overall dimness is not a hard shadow — that is `low_contrast` or nothing.
-A thin shadow line across a corner fails the area test.
+**Amended 2026-10-09** — wording only, no tags changed. See Amendment 1 below
+for the original frozen sentence and the evidence. This wording describes the
+criterion that was actually applied during the 08/10/2026 tagging run.
+
+Three conditions:
+
+1. **Sharp boundary.** The shadow has a recognisable edge where it meets the
+   lit area. Soft overall dimness is not a hard shadow — that is
+   `low_contrast` or nothing.
+2. **Combined area ≥ roughly 10% of the frame.** Add up the shadow regions you
+   can actually see as shadow. A shadow broken into two or three patches by an
+   object lying across it still counts as one shadow for the area test — do not
+   require a single unbroken region.
+3. **It must read as cast shadow, not as a dark object.** A black tyre, a dark
+   bin or an open doorway is dark subject matter, not a shadow. If you would
+   describe it as "a dark thing" rather than "a shadow", tag `no`.
 
 Judge 10% by eye: a region about a third of the frame width and a third of its
-height is roughly 10%. Do not measure.
+height is roughly 10%. Do not measure. A thin shadow line across a corner
+fails the area test.
+
+**What does not count toward the area:** general gloom, the darker half of an
+unevenly lit frame with no visible edge, or every pixel that happens to be
+darker than average. The area is the shadow you can point at and trace the
+edge of — not the total of all dark pixels.
 
 ### 3. `glare`
 
@@ -77,8 +105,45 @@ The test is **loss of detail**, not brightness. A bright but still-textured
 white surface (a clean wall, a white sack with visible weave) is `no`. If you
 can see no texture at all inside the bright patch, it is `yes`.
 
-*Draft note:* decide whether a single small specular dot counts. Suggested:
-ignore specks smaller than roughly a fingertip at normal viewing size.
+**No minimum patch size is specified. This is deliberate — see the note below.
+Not an oversight.**
+
+#### Note (2026-10-09): why no size threshold was set
+
+The draft of this rule carried an unresolved note asking whether a single small
+specular dot should count, and suggesting a fingertip-sized minimum. **That
+threshold was never set, and it is deliberately being left unset.**
+
+During the 08/10/2026 tagging run no fixed size threshold was in force.
+`glare` was judged purely on **visible loss of detail** — whether a bright
+patch reads as pure white with no texture inside it — with the patch-size
+question settled by eye, case by case, without a stated cut-off.
+
+Setting a number now would not describe the criterion that was applied; it
+would **newly decide borderline cases** that were decided some other way at
+tagging time. That is the one move that would compromise what makes these tags
+citable: they were produced blind, in seeded random order, before any proxy
+measurement was consulted. A retrospective threshold would convert a
+documented judgement into an undocumented re-tag.
+
+**State this as a limitation, because it is one.** Specifically:
+
+- `glare` is the only degradation whose proxy disagreements run in **both
+  directions** (10 frames tagged `no` with top-decile clipped highlights, and
+  `img_063.jpg` tagged `yes` at percentile 9). Two-directional disagreement is
+  the signature of a criterion that was not fixed in advance. The other four
+  categories disagree one-directionally, consistent with a stable rule meeting
+  a confounded proxy.
+- The cost of the weaker wording is low: `glare` is **Priority 2** in the
+  method plan, affecting 4 of 9 scenes and 10 frames, and the achievable gain
+  is bounded anyway — median clipped-highlight area across the set is **0.11%
+  of pixels**.
+- If a reviewer presses on this, the remedy is a **documented re-tag**, not a
+  retrospective amendment: fix a threshold, then re-tag the 10 `glare = yes`
+  frames plus the near-threshold `no` frames (`img_001`, `img_002`, `img_013`,
+  `img_015`, `img_034`, `img_035`, `img_046`, `img_061`, `img_064`,
+  `img_067`) — roughly 20 frames — and record it in the Amendments table as a
+  re-tag with its own date.
 
 ### 4. `colour_cast`
 
@@ -165,9 +230,132 @@ to overrule your judgement.
 
 Record any rule change here, with the date and what you re-tagged.
 
-| Date | Rule changed | What changed | Images re-tagged |
-|---|---|---|---|
-|  |  |  |  |
+| # | Date | Rule changed | What changed | Images re-tagged |
+|---|---|---|---|---|
+| 1 | 2026-10-09 | `hard_shadow` | Area test re-worded: "that dark region covers ≥10%" → "one or more visually obvious sharp-edged shadow regions whose **combined** area is ≥~10%". Added an explicit exclusion for dark *objects* and for total-dark-pixel readings. | **None — zero tag values changed.** Wording only. |
+| 2 | 2026-10-09 | `haze_dust` | Visible-depth precondition promoted from the rule's commentary into the rule sentence itself. No change of meaning. | **None — zero tag values changed.** Wording only. |
+| — | 2026-10-09 | `glare` | **No change made.** Decision recorded not to set a size threshold retrospectively. See the note under rule 3 and Decision Note A below. | None. |
+
+### Amendment 1 — `hard_shadow` area test
+
+**Original frozen wording (08/10/2026), verbatim — this is the sentence that
+was in force while all 77 frames were tagged:**
+
+> **Tag `yes` if** there is a distinctly darker region with a recognisably
+> sharp edge, and that dark region covers **roughly a tenth or more** of the
+> frame.
+>
+> Two conditions, both required: **sharp boundary** and **≥10% of frame**. Soft
+> overall dimness is not a hard shadow — that is `low_contrast` or nothing.
+> A thin shadow line across a corner fails the area test.
+>
+> Judge 10% by eye: a region about a third of the frame width and a third of its
+> height is roughly 10%. Do not measure.
+
+**Why it was amended.** The phrase "that dark region covers roughly a tenth or
+more of the frame" is ambiguous between two readings, and measurement against
+the 77 processed frames shows that *neither literal reading reproduces the
+tagging*:
+
+| Reading of "that dark region covers ≥10% of frame" | Frames qualifying |
+|---|---|
+| One **contiguous** dark region ≥10% of the frame | **0 / 77** — the largest single connected dark region found anywhere in the set is **5.08%** (`img_066.jpg`) |
+| **Total** dark area ≥10% of the frame | **74 / 77** — total dark area ranges **9.7% – 29.0%** across the set |
+| **As actually tagged** | **29 / 77** |
+
+Source: `dark_region_largest_frac` and `dark_region_frac` in
+`data/metadata/degradation_proxies.csv`, produced by
+`scripts/degradation_proxies.py`.
+
+The applied criterion therefore sat demonstrably *between* the two literal
+readings — it was neither one unbroken region nor every relatively-dark pixel,
+but the summed area of the shadow regions visible as shadow. The amended
+wording states that criterion explicitly.
+
+**The tags were not changed, and that is the correct direction of fix.** The
+defect was in the sentence, not in the judgements. Two pieces of evidence that
+the judgements were applied consistently:
+
+1. `hard_shadow` and `low_contrast` **never co-occur** — 0 of 77 frames carry
+   both. This is exactly what the rule set predicts: a frame with a real
+   sharp-edged shadow contains true blacks, and the `low_contrast` rule
+   requires that there be none anywhere. An inconsistently-applied shadow rule
+   would not produce a clean zero here.
+2. Of the 29 `hard_shadow` frames, 24 carry that tag and nothing else, and the
+   tag is distributed across 5 of the 9 scenes rather than concentrated in one
+   burst — so it is not an artifact of one run of near-duplicate frames.
+
+Re-tagging under the amended wording would therefore change nothing except to
+re-derive the same 29 frames, while destroying the property that makes the
+original tags citable: that they were produced blind, in a seeded random order,
+before any proxy measurement was consulted. Amending the wording preserves
+that; re-tagging would not.
+
+**Caveat on the evidence, stated for completeness.** The proxy columns quoted
+above are not a direct measure of "shadow". `dark_region_frac` thresholds at
+0.45 × each image's own mean luminance, which is not the eye's notion of
+shadow, and `dark_region_largest_frac` uses connected components, so a shadow
+interrupted by a bright object splits into several small pieces and
+under-reports. Both limitations are documented in
+`data/metadata/degradation_proxies_README.md`. The measurements are used here
+only to establish that the two *literal* readings of the original sentence
+bracket the tagging — 0 on one side, 74 on the other, 29 in the middle — which
+does not depend on the proxy being a good shadow detector.
+
+---
+
+### Amendment 2 — `haze_dust` visible-depth precondition
+
+**Original frozen wording (08/10/2026), verbatim — this is the sentence that
+was in force while all 77 frames were tagged:**
+
+> **Tag `yes` if** the distant part of the scene is visibly washed out toward
+> grey or grey-brown, so that distant edges have lower contrast than nearby
+> edges in the same image.
+>
+> The test is the **near-versus-far contrast difference within the one image**,
+> not overall brightness. An evenly bright image is not hazy. An image with no
+> visible distance (a close-up of a single bin) cannot show haze — tag `no`.
+>
+> *Draft note:* consider whether you want to require visible depth in the frame
+> as a precondition. Suggested: if there is no distinguishable far field, `no`.
+
+**Why it was amended.** The visible-depth precondition was already stated —
+"An image with no visible distance … cannot show haze — tag `no`" — but it sat
+in the explanatory paragraph rather than in the rule sentence, with an
+unresolved draft note beside it suggesting the same thing. A reader checking
+the rule sentence alone would not have seen it. The amendment moves it into the
+sentence and drops the now-redundant draft note. **The meaning is unchanged.**
+
+**Evidence that the precondition was applied during tagging.** All 16
+`haze_dust` proxy disagreements run in **one direction only**: frames tagged
+`haze_dust = no` whose dark-channel / transmission measures sit in the top
+decile, spread across scenes 01, 04, 06, 07 and 08. There are **zero**
+disagreements in the other direction — every one of the 5 frames tagged
+`haze_dust = yes` is corroborated by its proxy.
+
+That pattern is what a correctly-applied precondition produces: close-range
+frames with pale dust or bare concrete score high on the dark-channel prior
+(a documented failure mode of that metric) but were correctly tagged `no`
+because they show no far field. A precondition applied inconsistently would
+produce disagreements in both directions, as `glare` does.
+
+**Zero tag values were changed by this amendment.** As with Amendment 1, the
+defect was in where the sentence put the precondition, not in the judgements.
+
+### Decision Note A — `glare` size threshold deliberately left unset
+
+**Decision (2026-10-09): do not set a minimum specular-patch size.** No rule
+text was changed. The full reasoning is recorded under rule 3 above; in short:
+no threshold was in force at tagging time, `glare` was judged on visible loss
+of detail, and setting a number retrospectively would newly decide borderline
+cases rather than describe the criterion applied — compromising the provenance
+of the blind, seeded-order tagging.
+
+This is recorded as a **deliberate methodological choice, and as a limitation**.
+`glare` is the only category with two-directional proxy disagreement, which is
+the honest signature of an unfixed criterion. A documented re-tag of roughly 20
+frames remains available if a reviewer presses; see rule 3 for the frame list.
 
 ---
 
